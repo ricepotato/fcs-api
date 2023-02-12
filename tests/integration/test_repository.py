@@ -1,15 +1,19 @@
 import boto3
 
-from fcs import config, repository
+from fcs import config, models, repository
 
 
-def test_repository(settings: config.Settings):
-    dynamodb_resource = boto3.resource(
-        "dynamodb",
-        region_name=settings.region_name,
-        aws_access_key_id=settings.aws_access_key,
-        aws_secret_access_key=settings.aws_secret_key,
-    )
-    repo = repository.DynamoRepository(dyn_resource=dynamodb_resource)
-    tables = repo.list_tables()
-    assert tables
+def test_mongo_repository(settings: config.Settings):
+
+    repo = repository.MongodbRepository(url=settings.mongodb_url)
+    repo.delete_all()
+
+    fc = models.FCS(name="FC2PPV-3133751")
+    insert_result = repo.insert_fc(fc=fc)
+    assert insert_result
+
+    result_fc = repo.get_fc_by_name(name="FC2PPV-3133751")
+    assert result_fc.id
+
+    result_fc = repo.get_fc_by_no("3133751")
+    assert result_fc.id

@@ -11,6 +11,9 @@ fastapi = "^0.89.1"
 pydantic = "^1.10.4"
 boto3 = "^1.26.60"
 python-dotenv = "^0.21.1"
+uvicorn = "^0.20.0"
+mypy-boto3-dynamodb = "^1.26.24"
+pymongo = "^4.3.3"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -19,6 +22,9 @@ flake8 = "^6.0.0"
 pytest = "^7.2.1"
 mypy = "^0.991"
 pylint = "^2.15.10"
+botocore-stubs = "^1.29.62"
+boto3-stubs = "^1.26.62"
+
 
 [build-system]
 requires = ["poetry-core"]

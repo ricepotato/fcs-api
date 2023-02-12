@@ -1,3 +1,5 @@
+import boto3
+from mypy_boto3_dynamodb import DynamoDBServiceResource
 import pytest
 import dotenv
 import pathlib
@@ -16,3 +18,14 @@ def env():
 @pytest.fixture
 def settings(env):
     yield config.Settings()
+
+
+@pytest.fixture
+def dynamodb_resource(settings: config.Settings) -> DynamoDBServiceResource:
+    dynamodb_resource = boto3.resource(
+        "dynamodb",
+        region_name=settings.region_name,
+        aws_access_key_id=settings.aws_access_key,
+        aws_secret_access_key=settings.aws_secret_key,
+    )
+    return dynamodb_resource
